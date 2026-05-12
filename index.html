@@ -2,74 +2,235 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <title>AI Quiz</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
-        #quiz-container { max-width: 500px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
-        button { display: block; width: 100%; margin: 10px 0; padding: 10px; cursor: pointer; background: #f0f0f0; border: 1px solid #999; border-radius: 4px; }
-        button:hover { background: #e0e0e0; }
+        body { 
+            font-family: sans-serif; 
+            padding: 20px; 
+            line-height: 1.6;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            
+            background: 
+                 url('images/Background.png');
+            
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        #quiz-container { 
+            max-width: 500px; 
+            width: 90%;
+            height: fit-content;
+            margin: 24px auto 0 auto;
+            background-color: rgba(28, 45, 53, 0.7); 
+            padding: 12px; 
+            border-radius: 12px; 
+            backdrop-filter: blur(69.77px);
+            -webkit-backdrop-filter: blur(69.77px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        #question-number {
+            text-transform: uppercase;
+            font-size: 1.9rem;
+            color: rgba(0, 171, 129, 1);
+            margin-bottom: 6px;
+            display: block;
+            letter-spacing: 0.5%;
+            font-weight: bold;
+        }
+
+        #question-text {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: normal;
+        }
+
+        .circle-icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px; 
+            background-color: rgba(28, 45, 53, 0.7);
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        button { 
+            display: flex;
+            width: 100%; 
+            margin: 12px 0; 
+            padding: 15px; 
+            cursor: pointer; 
+            background: #ffffff;
+            color: #1c2d35;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 12px; 
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        button:hover { 
+            background: lightgray; 
+        }
+
+        #thanks-section {
+           width: 90%; 
+           position: fixed;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           max-width: 500px; 
+           z-index: 100;
+           text-align: center;
+       }
+
+        #thanks-section input {
+    width: 100%;
+    background: transparent;
+    border: 2px solid  #d4af37;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 1.1rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+
+        #quiz-form {
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+
+#quiz-form input::placeholder {
+    color: white;
+    opacity: 1;
+}
+
+#submit-btn {
+    background: linear-gradient(45deg, #d4af37, #f9e27d) !important;
+    color: #1c2d35 !important;
+    font-weight: bold !important;
+    border: none !important;
+    justify-content: center !important;
+    text-transform: uppercase;
+}
+
+#submit-btn:hover {
+    background: linear-gradient(45deg, #b8860b, #d4af37) !important;
+}
     </style>
 </head>
 <body>
 
     <div id="quiz-container">
+        <span id="question-number"></span>
         <h2 id="question-text">Loading</h2>
         <div id="options-container"></div>
+    </div>
+
+    <div id="thanks-section" style="display: none">
+    <form id="quiz-form">
+        <input type="text" placeholder="Name" required>
+        <input type="tel" placeholder="Phone" required>
+        <input type="email" placeholder="Email" required>
+        <button type="submit" id="submit-btn">Send</button>
+    </form>
+</div>
+
+<div id="final-message" style="display: none; text-align: center; width: 100%; margin-top: 100px;">
+        <h1 style="font-size: 4rem; color: white; text-transform: uppercase; letter-spacing: 5px;">Thank you!</h1>
     </div>
 
     <script>
         const quizData = {
             start: {
-                text: "Do you have kids?",
+                text: "Do you have experience in investing?",
                 options: [
-                    { text: "Yes", nextStep: "howMany" },
-                    { text: "No", nextStep: "plans" }
+                    { text: "Yes", nextStep: "AiSysytem" },
+                    { text: "A little", nextStep: "AiSysytem" },
+                    { text: "No", nextStep: "finish" }
                 ]
             },
-            howMany: {
-                text: "How many kids do you have&",
+            AiSysytem: {
+                text: "Are you familiar with AI or automated systems?",
                 options: [
-                    { text: "One", nextStep: "finish" },
-                    { text: "Two or more", nextStep: "finish" }
+                    { text: "Yes", nextStep: "plans" },
+                    { text: "I've heard about it", nextStep: "plans" },
+                    { text: "No", nextStep: "finish" }
                 ]
             },
             plans: {
-                text: "Do you plan to have kids?",
+                text: "Are you ready to activate the bonus and start using the system?",
                 options: [
                     { text: "Yes", nextStep: "finish" },
-                    { text: "No", nextStep: "finish" },
-                    { text: "Don't know", nextStep: "finish" }
+                    { text: "Yes, with a minimum amount", nextStep: "finish" },
+                    { text: "I would like to know more", nextStep: "finish" }
                 ]
             },
             finish: {
                 text: "Thanks",
-                options: [] 
+                options: [],
+                showForm: true
             }
         };
 
         const questionElement = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
+        const numberElement = document.getElementById('question-number');
+        const quizContainer = document.getElementById('quiz-container');
+        const thanksSection = document.getElementById('thanks-section');
+        const finalMessage = document.getElementById('final-message');
+        const qForm = document.getElementById('quiz-form');
+
+        let currentQuestionNumber = 1;
 
         function renderStep(stepKey) {
             const step = quizData[stepKey];
-            
+
+            if (stepKey === 'finish') {
+                quizContainer.remove(); 
+                thanksSection.style.display = 'block'; 
+                return; 
+            }
+
             optionsContainer.innerHTML = '';
             
-            questionElement.textContent = step.text;
+            if (step.options.length > 0) {
+                numberElement.textContent = "Question " + currentQuestionNumber;
+                questionElement.textContent = step.text;
+            }
 
             step.options.forEach(option => {
                 const btn = document.createElement('button');
-                btn.textContent = option.text;
-                
-                btn.onclick = () => renderStep(option.nextStep);
-                
+                btn.innerHTML = `<div class="circle-icon"></div><span>${option.text}</span>`;
+                btn.onclick = () => {
+                    currentQuestionNumber++;
+                    renderStep(option.nextStep);
+                };
                 optionsContainer.appendChild(btn);
             });
         }
 
+        qForm.onsubmit = (e) => {
+            e.preventDefault();
+            thanksSection.remove();
+            finalMessage.style.display = 'block';
+        };
+
         renderStep('start');
     </script>
-
-</body>
-</html>
