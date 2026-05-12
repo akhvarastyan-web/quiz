@@ -3,23 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мій Проєкт</title>
+    <title>Quiz</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        #quiz-container { max-width: 500px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        button { display: block; width: 100%; margin: 10px 0; padding: 10px; cursor: pointer; background: #f0f0f0; border: 1px solid #999; border-radius: 4px; }
+        button:hover { background: #e0e0e0; }
+    </style>
 </head>
 <body>
 
-    <h1>Frontend сторінка</h1>
-    <p>Натисніть на кнопку, щоб виконати JS-код.</p>
-    
-    <button id="btn">Запустити скрипт</button>
+    <div id="quiz-container">
+        <h2 id="question-text">Loading</h2>
+        <div id="options-container"></div>
+    </div>
 
     <script>
-        // Валідний JavaScript
-        const button = document.querySelector('#btn');
-        
-        button.addEventListener('click', () => {
-            console.log('JS працює!');
-            alert('Привіт! Валідний JavaScript успішно виконано.');
-        });
+        const quizData = {
+            start: {
+                text: "Do you have kids?",
+                options: [
+                    { text: "Yes", nextStep: "howMany" },
+                    { text: "No", nextStep: "plans" }
+                ]
+            },
+            howMany: {
+                text: "How many kids do you have&",
+                options: [
+                    { text: "One", nextStep: "finish" },
+                    { text: "Two or more", nextStep: "finish" }
+                ]
+            },
+            plans: {
+                text: "Do you plan to have kids?",
+                options: [
+                    { text: "Yes", nextStep: "finish" },
+                    { text: "No", nextStep: "finish" },
+                    { text: "Don't know", nextStep: "finish" }
+                ]
+            },
+            finish: {
+                text: "Thanks",
+                options: [] 
+            }
+        };
+
+        const questionElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+
+        function renderStep(stepKey) {
+            const step = quizData[stepKey];
+            
+            optionsContainer.innerHTML = '';
+            
+            questionElement.textContent = step.text;
+
+            step.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.textContent = option.text;
+                
+                btn.onclick = () => renderStep(option.nextStep);
+                
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        renderStep('start');
     </script>
 
 </body>
