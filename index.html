@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мій Проєкт</title>
+</head>
+<body>
+
+    <h1>Frontend сторінка</h1>
+    <p>Натисніть на кнопку, щоб виконати JS-код.</p>
+    
+    <button id="btn">Запустити скрипт</button>
+
+    <script>
+        // Валідний JavaScript
+        const button = document.querySelector('#btn');
+        
+        button.addEventListener('click', () => {
+            console.log('JS працює!');
+            alert('Привіт! Валідний JavaScript успішно виконано.');
+        });
+    </script>
+
+</body>
+</html>
